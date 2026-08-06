@@ -128,12 +128,12 @@ const Signup = () => {
     <div className="flex flex-col gap-4">
       {/* Name Input */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+        <label className="text-[10px] font-bold text-[#6B6B6B] uppercase tracking-wider">
           Name <span className="text-red-500">*</span>
         </label>
         <input
           placeholder="John Doe"
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none rounded-xl text-sm transition-all placeholder:text-slate-400"
+          className="w-full px-4 py-3 bg-white border border-[#E8E8E8] focus:border-[#111111] focus:ring-1 focus:ring-[#111111] focus:outline-none rounded-xl text-sm transition-all placeholder:text-[#6B6B6B]/40"
           onChange={(e) => setName(e.target.value)}
           required
         />
@@ -141,13 +141,13 @@ const Signup = () => {
       
       {/* Email Input */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+        <label className="text-[10px] font-bold text-[#6B6B6B] uppercase tracking-wider">
           Email Address <span className="text-red-500">*</span>
         </label>
         <input
           type="email"
           placeholder="you@example.com"
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none rounded-xl text-sm transition-all placeholder:text-slate-400"
+          className="w-full px-4 py-3 bg-white border border-[#E8E8E8] focus:border-[#111111] focus:ring-1 focus:ring-[#111111] focus:outline-none rounded-xl text-sm transition-all placeholder:text-[#6B6B6B]/40"
           onChange={(e) => setEmail(e.target.value)}
           required
         />
@@ -155,22 +155,22 @@ const Signup = () => {
       
       {/* Password Input */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+        <label className="text-[10px] font-bold text-[#6B6B6B] uppercase tracking-wider">
           Password <span className="text-red-500">*</span>
         </label>
         <div className="relative">
           <input
             type={show ? "text" : "password"}
             placeholder="••••••••"
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none rounded-xl text-sm pr-12 transition-all placeholder:text-slate-400"
+            className="w-full px-4 py-3 bg-white border border-[#E8E8E8] focus:border-[#111111] focus:ring-1 focus:ring-[#111111] focus:outline-none rounded-xl text-sm pr-12 transition-all placeholder:text-[#6B6B6B]/40"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+          <div className="absolute inset-y-0 right-0 flex items-center pr-4">
             <button
               type="button"
               onClick={handleClick}
-              className="text-xs font-semibold text-slate-500 hover:text-slate-700 focus:outline-none"
+              className="text-xs font-bold text-[#6B6B6B] hover:text-[#111111] transition-colors focus:outline-none"
             >
               {show ? "Hide" : "Show"}
             </button>
@@ -180,22 +180,22 @@ const Signup = () => {
       
       {/* Confirm Password Input */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+        <label className="text-[10px] font-bold text-[#6B6B6B] uppercase tracking-wider">
           Confirm Password <span className="text-red-500">*</span>
         </label>
         <div className="relative">
           <input
             type={show ? "text" : "password"}
             placeholder="••••••••"
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none rounded-xl text-sm pr-12 transition-all placeholder:text-slate-400"
+            className="w-full px-4 py-3 bg-white border border-[#E8E8E8] focus:border-[#111111] focus:ring-1 focus:ring-[#111111] focus:outline-none rounded-xl text-sm pr-12 transition-all placeholder:text-[#6B6B6B]/40"
             onChange={(e) => setConfirmpassword(e.target.value)}
             required
           />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+          <div className="absolute inset-y-0 right-0 flex items-center pr-4">
             <button
               type="button"
               onClick={handleClick}
-              className="text-xs font-semibold text-slate-500 hover:text-slate-700 focus:outline-none"
+              className="text-xs font-bold text-[#6B6B6B] hover:text-[#111111] transition-colors focus:outline-none"
             >
               {show ? "Hide" : "Show"}
             </button>
@@ -205,13 +205,13 @@ const Signup = () => {
       
       {/* Upload Avatar */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+        <label className="text-[10px] font-bold text-[#6B6B6B] uppercase tracking-wider">
           Upload Avatar
         </label>
         <input
           type="file"
           accept="image/*"
-          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:outline-none rounded-xl text-sm transition-all file:mr-4 file:py-1.5 file:px-3.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          className="w-full px-3 py-2 bg-white border border-[#E8E8E8] focus:border-[#111111] focus:outline-none rounded-xl text-sm transition-all file:mr-4 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-[#111111] file:text-white hover:file:bg-[#222222] file:transition-colors file:cursor-pointer"
           onChange={(e) => postDetails(e.target.files[0])}
         />
       </div>
@@ -220,7 +220,7 @@ const Signup = () => {
       <button
         onClick={submitHandler}
         disabled={picLoading}
-        className="w-full py-3.5 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3.5 mt-4 bg-[#111111] hover:bg-[#222222] text-white font-bold rounded-full text-sm shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {picLoading ? (
           <span className="flex items-center gap-2">

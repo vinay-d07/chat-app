@@ -36,7 +36,7 @@ const Landingpage = () => {
             <svg className="w-5 h-5 text-[#111111]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
             </svg>
-            <span className="font-bold text-lg tracking-tight">talkative</span>
+            <span className="font-bold text-lg tracking-tight">connected</span>
           </div>
 
           {/* Navigation Links */}
@@ -73,7 +73,7 @@ const Landingpage = () => {
           </h1>
           
           <p className="text-lg text-[#6B6B6B] max-w-md leading-relaxed">
-            Talk-A-Tive is a thoughtful, minimalist chat space designed for focused collaboration. Zero clutter. Clean execution. Direct communication.
+            connected is a thoughtful, minimalist chat space designed for focused collaboration. Zero clutter. Clean execution. Direct communication.
           </p>
 
           <div className="flex items-center gap-4 mt-2">
@@ -102,7 +102,7 @@ const Landingpage = () => {
                 <div className="w-2 h-2 rounded-full bg-[#E8E8E8]" />
                 <div className="w-2 h-2 rounded-full bg-[#E8E8E8]" />
               </div>
-              <span className="text-[10px] font-bold text-[#6B6B6B] tracking-wider uppercase">talkative</span>
+              <span className="text-[10px] font-bold text-[#6B6B6B] tracking-wider uppercase">connected</span>
               <div className="w-8" />
             </div>
 
@@ -237,8 +237,8 @@ const Landingpage = () => {
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 text-xs text-[#6B6B6B] w-full">
           {/* Logo / Copyright */}
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#111111]">talkative</span>
-            <span>© {new Date().getFullYear()} Talk-A-Tive.</span>
+            <span className="font-bold text-[#111111]">connected</span>
+            <span>© {new Date().getFullYear()} connected.</span>
           </div>
           
           {/* Link Items */}

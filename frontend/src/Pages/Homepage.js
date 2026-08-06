@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
 
@@ -13,58 +13,74 @@ function Homepage() {
   }, [history]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 relative overflow-hidden font-sans">
-      {/* Decorative blurred background blob */}
-      <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-radial-gradient filter blur-[40px] opacity-30 pointer-events-none z-0" />
-      
-      <style>{`
-        .bg-radial-gradient {
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(168, 85, 247, 0.05) 70%);
-        }
-      `}</style>
-
-      <div className="flex flex-col w-full max-w-md gap-6 relative z-10">
-        {/* Brand Header */}
-        <div className="flex items-center justify-center gap-2.5">
-          <div className="bg-gradient-to-tr from-blue-500 to-purple-600 p-2.5 rounded-2xl text-white shadow-lg">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+    <div className="min-h-screen bg-[#FAFAF8] text-[#111111] font-sans selection:bg-[#111111] selection:text-white antialiased flex flex-col">
+      {/* Navbar */}
+      <nav className="border-b border-[#E8E8E8] bg-[#FAFAF8]/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 cursor-pointer">
+            <svg className="w-5 h-5 text-[#111111]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
             </svg>
+            <span className="font-bold text-lg tracking-tight">talkative</span>
+          </Link>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center gap-10">
+            <a href="/#features" className="text-sm font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
+              Features
+            </a>
+            <a href="/#about" className="text-sm font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
+              Overview
+            </a>
           </div>
-          <span className="text-3xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Talk-A-Tive
-          </span>
+
+          {/* CTA */}
+          <div>
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center border border-[#E8E8E8] hover:border-[#111111] text-[#111111] text-xs font-bold px-5 py-3 rounded-full transition-colors bg-white shadow-sm"
+            >
+              Back to Home
+            </Link>
+          </div>
         </div>
+      </nav>
 
-        {/* Auth Card */}
-        <div className="bg-white w-full p-8 rounded-3xl border border-slate-100 shadow-xl">
-          {/* Tab Switcher */}
-          <div className="flex border-b-2 border-slate-100 mb-6">
-            <button
-              onClick={() => setActiveTab("signin")}
-              className={`flex-1 text-center pb-3 font-bold text-sm border-b-2 -mb-[2px] transition-all ${
-                activeTab === "signin"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-slate-400 hover:text-slate-600"
-              }`}
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => setActiveTab("signup")}
-              className={`flex-1 text-center pb-3 font-bold text-sm border-b-2 -mb-[2px] transition-all ${
-                activeTab === "signup"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-slate-400 hover:text-slate-600"
-              }`}
-            >
-              Create Account
-            </button>
-          </div>
+      {/* Main Container */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <div className="flex flex-col w-full max-w-md gap-8 relative z-10">
+          
+          {/* Auth Card */}
+          <div className="bg-white w-full p-8 rounded-[32px] border border-[#E8E8E8] shadow-sm">
+            {/* Tab Switcher */}
+            <div className="flex border-b-2 border-[#E8E8E8] mb-6">
+              <button
+                onClick={() => setActiveTab("signin")}
+                className={`flex-1 text-center pb-3 font-bold text-sm border-b-2 -mb-[2px] transition-all ${
+                  activeTab === "signin"
+                    ? "border-[#111111] text-[#111111]"
+                    : "border-transparent text-[#6B6B6B] hover:text-[#111111]"
+                }`}
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => setActiveTab("signup")}
+                className={`flex-1 text-center pb-3 font-bold text-sm border-b-2 -mb-[2px] transition-all ${
+                  activeTab === "signup"
+                    ? "border-[#111111] text-[#111111]"
+                    : "border-transparent text-[#6B6B6B] hover:text-[#111111]"
+                }`}
+              >
+                Create Account
+              </button>
+            </div>
 
-          {/* Form Content */}
-          <div className="transition-all duration-200">
-            {activeTab === "signin" ? <Login /> : <Signup />}
+            {/* Form Content */}
+            <div className="transition-all duration-200">
+              {activeTab === "signin" ? <Login /> : <Signup />}
+            </div>
           </div>
         </div>
       </div>
@@ -73,3 +89,4 @@ function Homepage() {
 }
 
 export default Homepage;
+
