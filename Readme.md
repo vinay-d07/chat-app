@@ -2,6 +2,21 @@
 
 A full-stack MERN chat application with friend-gated messaging, group chats, file sharing, WebRTC video calls, and end-to-end encrypted text messages.
 
+## Demo
+
+Two users chatting in real time:
+
+[▶ Watch the demo recording](sample/Screen%20Recording%202026-08-24%20210749.mp4)
+
+<!--
+  For an inline-playing video instead of a download link: open this
+  Readme.md in the GitHub web editor, drag in
+  `sample/Screen Recording 2026-08-24 210749.mp4` from your machine, and
+  GitHub uploads it and hands you a github.com/user-attachments/assets/...
+  URL — paste that URL on its own line here and it renders as an inline
+  player. Then this link + comment can be removed.
+-->
+
 ## Features
 
 ### Authentication

@@ -57,8 +57,10 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
-    // credentials: true,
+    // In production the frontend build is served from this same Express
+    // server/origin, so this only really matters for local dev (CRA on
+    // :3000) or if the frontend is ever hosted on a separate origin.
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
   },
 });
 
