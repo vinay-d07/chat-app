@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 const colors = require("colors");
+const dns = require("dns");
+
+// Node's built-in resolver (c-ares) can fail to reach certain
+// VPN/router-assigned DNS servers for SRV lookups (mongodb+srv://),
+// even though the OS resolver handles them fine. Forcing public
+// DNS servers here avoids "querySrv ECONNREFUSED" on connect.
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const connectDB = async () => {
   try {

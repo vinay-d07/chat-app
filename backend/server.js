@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
 
@@ -17,9 +18,12 @@ app.use(express.json()); // to accept json data
 //   res.send("API Running!");
 // });
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/upload", uploadRoutes);
 
 // --------------------------deployment------------------------------
 
@@ -58,9 +62,16 @@ const io = require("socket.io")(server, {
   },
 });
 
+// Tracks who is currently on a call with whom (userId -> peerUserId),
+// so a dropped connection only ends the call for the actual peer.
+const activeCallPeers = new Map();
+
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
+  let setupUserId;
+
   socket.on("setup", (userData) => {
+    setupUserId = userData._id;
     socket.join(userData._id);
     socket.emit("connected");
   });
@@ -84,8 +95,47 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.off("setup", () => {
+  // --------------------------video call signaling------------------------------
+  // Callers/callees are addressed by the user-id rooms joined in "setup" above.
+
+  socket.on("call:user", ({ to, from, offer, callType }) => {
+    socket.in(to).emit("call:incoming", { from, offer, callType });
+  });
+
+  socket.on("call:answer", ({ to, answer }) => {
+    if (setupUserId) {
+      activeCallPeers.set(setupUserId, to);
+      activeCallPeers.set(to, setupUserId);
+    }
+    socket.in(to).emit("call:answer", { answer });
+  });
+
+  socket.on("call:ice-candidate", ({ to, candidate }) => {
+    socket.in(to).emit("call:ice-candidate", { candidate });
+  });
+
+  socket.on("call:reject", ({ to }) => {
+    socket.in(to).emit("call:rejected");
+  });
+
+  socket.on("call:end", ({ to }) => {
+    activeCallPeers.delete(setupUserId);
+    activeCallPeers.delete(to);
+    socket.in(to).emit("call:ended");
+  });
+
+  // --------------------------video call signaling------------------------------
+
+  socket.on("disconnect", () => {
     console.log("USER DISCONNECTED");
-    socket.leave(userData._id);
+    if (setupUserId) {
+      socket.leave(setupUserId);
+      const peerId = activeCallPeers.get(setupUserId);
+      if (peerId) {
+        activeCallPeers.delete(setupUserId);
+        activeCallPeers.delete(peerId);
+        socket.in(peerId).emit("call:ended");
+      }
+    }
   });
 });

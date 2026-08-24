@@ -35,6 +35,9 @@ const userSchema = mongoose.Schema(
         ref: "User",
       },
     ],
+    // JSON-stringified ECDH (P-256) public key JWK, used by other clients
+    // to wrap per-message AES keys for E2E encryption. Never a secret.
+    publicKey: { type: String, default: null },
   },
   { timestaps: true }
 );

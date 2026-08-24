@@ -8,6 +8,7 @@ const {
   declineFriendRequest,
   getPendingRequests,
   getFriends,
+  updatePublicKey,
 } = require("../controllers/userControllers");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -23,5 +24,6 @@ router.route("/request/accept").post(protect, acceptFriendRequest);
 router.route("/request/decline").post(protect, declineFriendRequest);
 router.route("/request/pending").get(protect, getPendingRequests);
 router.route("/friends").get(protect, getFriends);
+router.route("/publickey").put(protect, updatePublicKey);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Chat = require("../models/chatModel");
 const generateToken = require("../config/generateToken");
 
 //@description     Get or Search all users
@@ -103,17 +104,18 @@ const sendFriendRequest = asyncHandler(async (req, res) => {
     throw new Error("User not found.");
   }
 
-  // Ensure friends, sentRequests, and receivedRequests lists exist
-  const targetFriends = targetUser.friends || [];
+  // Ensure friends and sentRequests lists exist
   const currentFriends = currentUser.friends || [];
   const currentSent = currentUser.sentRequests || [];
 
-  if (currentFriends.includes(targetUserId)) {
+  // These are arrays of ObjectId, so compare by string value, not by
+  // reference (Array.includes on ObjectIds vs. a string never matches).
+  if (currentFriends.some((id) => id.toString() === targetUserId)) {
     res.status(400);
     throw new Error("You are already friends with this user.");
   }
 
-  if (currentSent.includes(targetUserId)) {
+  if (currentSent.some((id) => id.toString() === targetUserId)) {
     res.status(400);
     throw new Error("Friend request already sent.");
   }
@@ -144,7 +146,7 @@ const acceptFriendRequest = asyncHandler(async (req, res) => {
   }
 
   const currentReceived = currentUser.receivedRequests || [];
-  if (!currentReceived.includes(senderUserId)) {
+  if (!currentReceived.some((id) => id.toString() === senderUserId)) {
     res.status(400);
     throw new Error("No friend request received from this user.");
   }
@@ -159,6 +161,24 @@ const acceptFriendRequest = asyncHandler(async (req, res) => {
     $pull: { sentRequests: currentUserId },
     $addToSet: { friends: currentUserId },
   });
+
+  // Becoming friends should immediately open a chat, so it shows up
+  // in both users' chat lists without a separate "start chat" step.
+  const existingChat = await Chat.findOne({
+    isGroupChat: false,
+    $and: [
+      { users: { $elemMatch: { $eq: currentUserId } } },
+      { users: { $elemMatch: { $eq: senderUserId } } },
+    ],
+  });
+
+  if (!existingChat) {
+    await Chat.create({
+      chatName: "sender",
+      isGroupChat: false,
+      users: [currentUserId, senderUserId],
+    });
+  }
 
   res.status(200).json({ message: "Friend request accepted." });
 });
@@ -204,12 +224,32 @@ const getPendingRequests = asyncHandler(async (req, res) => {
 // @route   GET /api/user/friends
 // @access  Protected
 const getFriends = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id).populate("friends", "name email pic");
+  const user = await User.findById(req.user._id).populate("friends", "name email pic publicKey");
   if (!user) {
     res.status(404);
     throw new Error("User not found");
   }
   res.status(200).json(user.friends || []);
+});
+
+// @desc    Publish/update the caller's E2E encryption public key
+// @route   PUT /api/user/publickey
+// @access  Protected
+const updatePublicKey = asyncHandler(async (req, res) => {
+  const { publicKey } = req.body;
+
+  if (!publicKey || typeof publicKey !== "string") {
+    res.status(400);
+    throw new Error("publicKey is required.");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { publicKey },
+    { new: true }
+  ).select("-password");
+
+  res.status(200).json(user);
 });
 
 module.exports = {
@@ -221,4 +261,5 @@ module.exports = {
   declineFriendRequest,
   getPendingRequests,
   getFriends,
+  updatePublicKey,
 };
