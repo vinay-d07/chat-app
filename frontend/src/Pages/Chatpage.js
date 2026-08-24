@@ -2,6 +2,7 @@ import { useState } from "react";
 import Chatbox from "../components/Chatbox";
 import MyChats from "../components/MyChats";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
+import VideoCallManager from "../components/VideoCall/VideoCallManager";
 import { ChatState } from "../Context/ChatProvider";
 
 const Chatpage = () => {
@@ -17,6 +18,7 @@ const Chatpage = () => {
           <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
         )}
       </div>
+      {user && <VideoCallManager />}
     </div>
   );
 };

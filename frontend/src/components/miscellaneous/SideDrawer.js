@@ -316,13 +316,27 @@ function SideDrawer() {
                       <button
                         className="bg-[#111111] hover:bg-[#222222] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors"
                         onClick={async () => {
-                          const config = {
-                            headers: {
-                              Authorization: `Bearer ${user.token}`,
-                            },
-                          };
-                          await axios.post("/api/user/request/accept", { senderUserId: reqUser._id }, config);
-                          await fetchFriendData();
+                          try {
+                            const config = {
+                              headers: {
+                                Authorization: `Bearer ${user.token}`,
+                              },
+                            };
+                            await axios.post("/api/user/request/accept", { senderUserId: reqUser._id }, config);
+                            await fetchFriendData();
+                            const { data: chatsData } = await axios.get("/api/chat", config);
+                            setChats(chatsData);
+                          } catch (error) {
+                            toast({
+                              title: "Error Occured!",
+                              description:
+                                error.response?.data?.message || "Failed to accept the request",
+                              status: "error",
+                              duration: 5000,
+                              isClosable: true,
+                              position: "bottom",
+                            });
+                          }
                         }}
                       >
                         Accept
@@ -330,13 +344,25 @@ function SideDrawer() {
                       <button
                         className="border border-[#E8E8E8] hover:border-red-650 hover:bg-red-50 text-[#6B6B6B] hover:text-red-650 text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all"
                         onClick={async () => {
-                          const config = {
-                            headers: {
-                              Authorization: `Bearer ${user.token}`,
-                            },
-                          };
-                          await axios.post("/api/user/request/decline", { senderUserId: reqUser._id }, config);
-                          await fetchFriendData();
+                          try {
+                            const config = {
+                              headers: {
+                                Authorization: `Bearer ${user.token}`,
+                              },
+                            };
+                            await axios.post("/api/user/request/decline", { senderUserId: reqUser._id }, config);
+                            await fetchFriendData();
+                          } catch (error) {
+                            toast({
+                              title: "Error Occured!",
+                              description:
+                                error.response?.data?.message || "Failed to decline the request",
+                              status: "error",
+                              duration: 5000,
+                              isClosable: true,
+                              position: "bottom",
+                            });
+                          }
                         }}
                       >
                         Decline

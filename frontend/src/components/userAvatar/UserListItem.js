@@ -1,6 +1,7 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Box, Text, Flex } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
+import { useToast } from "@chakra-ui/toast";
 import { ChatState } from "../../Context/ChatProvider";
 import { useState } from "react";
 import axios from "axios";
@@ -8,10 +9,22 @@ import axios from "axios";
 const UserListItem = ({ user: searchUser, handleFunction }) => {
   const { user: currentUser, friends, sentRequests, receivedRequests, fetchFriendData } = ChatState();
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const isFriend = friends?.some((f) => f._id === searchUser._id);
   const isSent = sentRequests?.some((r) => r._id === searchUser._id);
   const isReceived = receivedRequests?.some((r) => r._id === searchUser._id);
+
+  const showError = (error, fallback) => {
+    toast({
+      title: "Error Occured!",
+      description: error.response?.data?.message || fallback,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+  };
 
   const sendRequest = async (e) => {
     e.stopPropagation();
@@ -25,7 +38,7 @@ const UserListItem = ({ user: searchUser, handleFunction }) => {
       await axios.post("/api/user/request/send", { targetUserId: searchUser._id }, config);
       await fetchFriendData();
     } catch (error) {
-      console.error(error);
+      showError(error, "Failed to send the friend request");
     }
     setLoading(false);
   };
@@ -42,7 +55,7 @@ const UserListItem = ({ user: searchUser, handleFunction }) => {
       await axios.post("/api/user/request/accept", { senderUserId: searchUser._id }, config);
       await fetchFriendData();
     } catch (error) {
-      console.error(error);
+      showError(error, "Failed to accept the request");
     }
     setLoading(false);
   };
@@ -59,7 +72,7 @@ const UserListItem = ({ user: searchUser, handleFunction }) => {
       await axios.post("/api/user/request/decline", { senderUserId: searchUser._id }, config);
       await fetchFriendData();
     } catch (error) {
-      console.error(error);
+      showError(error, "Failed to decline the request");
     }
     setLoading(false);
   };
